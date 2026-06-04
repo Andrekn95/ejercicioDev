@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  appbm:
+    image: ghcr.io/byronmoreno/appflask
+    ports:
+      - target: 5000
+        published: 7000
+        protocol: tcp
+        mode: host
+    networks:
+      - traefik-public
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.appbm.entrypoints=http"
+        - "traefik.http.routers.appbm.rule=Host(`appbm.byronrm.com`)"
+        - "traefik.http.middlewares.appbm-https-redirect.redirectscheme.scheme=https"
+        - "traefik.http.routers.appbm.middlewares=portainer-https-redirect"
+        - "traefik.http.routers.appbm-secure.entrypoints=https"
+        - "traefik.http.routers.appbm-secure.rule=Host(`appbm.byronrm.com`)"
+        - "traefik.http.routers.appbm-secure.tls=true"
+        - "traefik.http.routers.appbm-secure.tls.certresolver=http"
+        - "traefik.http.routers.appbm-secure.service=appbm"
+        - "traefik.http.services.appbm.loadbalancer.server.port=7000"
+        - "traefik.docker.network=traefik-public"
+
+networks:
+  traefik-public:
+    external: true
