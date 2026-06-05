@@ -1,9 +1,7 @@
 name: Build and Publish Docker Image
 
 on:
-
   push:
-
     branches:
       - main
 
@@ -12,17 +10,16 @@ permissions:
   packages: write
 
 env:
-  IMAGE_NAME: devops-flask-postgres
+  # Definimos directamente la ruta de tu imagen en minúsculas para evitar errores de Docker
+  REGISTRY_IMAGE: ghcr.io/andrekn95/devops-flask-postgres
   IMAGE_TAG: 2.0.0
 
 jobs:
 
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Descargar Código
         uses: actions/checkout@v4
 
@@ -36,11 +33,11 @@ jobs:
       - name: Construir Imagen
         run: |
           docker build \
-          -t ghcr.io/${{ github.repository }}:${{ env.IMAGE_TAG }} \
-          -t ghcr.io/${{ github.repository }}:latest \
-          .
+            -t ${{ env.REGISTRY_IMAGE }}:${{ env.IMAGE_TAG }} \
+            -t ${{ env.REGISTRY_IMAGE }}:latest \
+            .
 
       - name: Publicar Imagen
         run: |
-          docker push ghcr.io/${{ github.repository }}:${{ env.IMAGE_TAG }}
-          docker push ghcr.io/${{ github.repository }}:latest
+          docker push ${{ env.REGISTRY_IMAGE }}:${{ env.IMAGE_TAG }}
+          docker push ${{ env.REGISTRY_IMAGE }}:latest

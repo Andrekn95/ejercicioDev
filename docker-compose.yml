@@ -30,7 +30,7 @@ services:
       - red-frontend
 
   app:
-    image: ghcr.io/usuario/devops-flask-postgres:2.0.0
+    image: ghcr.io/andrekn95/devops-flask-postgres:2.0.0
     container_name: flaskapp
     ports:
       - "5000:5000"
