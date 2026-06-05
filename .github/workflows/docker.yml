@@ -12,7 +12,7 @@ permissions:
 env:
   # Definimos directamente la ruta de tu imagen en minúsculas para evitar errores de Docker
   REGISTRY_IMAGE: ghcr.io/andrekn95/devops-flask-postgres
-  IMAGE_TAG: 2.0.0
+  IMAGE_TAG: 3.0.0
 
 jobs:
 
